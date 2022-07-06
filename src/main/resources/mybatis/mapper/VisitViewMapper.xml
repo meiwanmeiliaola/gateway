@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.analysis.mapper.VisitViewMapper">
+
+
+    <select id="selectUserViewCountByNearDay" resultType="java.lang.Integer">
+        select count(*) from (select v.visitor_ip from msm_visit_view v
+         <if test="date != null">
+             where (record_date >= #{date})
+         </if>
+         group by v.visitor_ip) as c
+    </select>
+
+    <select id="selectByDevice" resultType="ChartData">
+        select device as title, count(device) as value from msm_visit_view v group by device
+    </select>
+</mapper>

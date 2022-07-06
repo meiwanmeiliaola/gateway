@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="cacheEnabled" value="false"/>
+        <!--<setting name="defaultStatementTimeout" value="3000"/>-->
+        <!--<setting name="mapUnderscoreToCamelCase" value="true"/>-->
+        <!--<setting name="useGeneratedKeys" value="true"/>-->
+    </settings>
+
+    <typeAliases>
+        <!--扫描包中的实体类设置别名-->
+<!--        <package name="com.msm.admin.modules.common.entity"/>-->
+<!--        <package name="com.msm.admin.modules.app.entity"/>-->
+<!--        <package name="com.msm.admin.modules.system.entity"/>-->
+<!--        <package name="com.msm.admin.modules.info.entity"/>-->
+<!--        <package name="com.msm.admin.modules.relic.entity"/>-->
+<!--        <package name="com.msm.admin.modules.statistics.entity"/>-->
+
+<!--            <package name="com.msm.admin.modules.*.entity"/>-->
+    </typeAliases>
+
+
+</configuration>

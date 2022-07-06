@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.statistics.mapper.RelicStatisticsMapper">
+
+
+    <select id="selectByArea" resultType="ChartData">
+        select count(*) as value, sa.name as title from msm_relic mr inner join sys_area sa on mr.area_id = sa.id group by sa.name order by value
+    </select>
+
+
+    <select id="selectByDepart" resultType="ChartData">
+/*        select count(*) as value, sd.name as title from msm_relic mr inner join sys_depart sd on mr.dep_id = sd.id group by sd.name order by value desc*/
+        select count(*) as value, sd.name as title from gw_relic mr inner join sys_depart sd on mr.dep_id = sd.id group by sd.name order by value desc
+    </select>
+
+    <select id="selectMonthRise" resultType="Integer">
+        select * from vm_relic_month_rise
+    </select>
+
+<!--    <select id="selectTotal" resultType="Integer">
+        select count(*) from msm_relic
+    </select>-->
+
+    <select id="selectTotal" resultType="Integer">
+        select count(*) from gw_relic
+    </select>
+
+<!--    <select id="selectTopCountDep" resultType="Map">
+        with temp as ( select dep_id, count(dep_id) as count from msm_relic r group by dep_id )
+          select top 1 t.count as value, d.name as title from temp t left join sys_depart d on d.id = t.dep_id order by count desc
+    </select>-->
+
+    <select id="selectTopCountDep" resultType="Map">
+        with temp as ( select dep_id, count(dep_id) as count from gw_relic r group by dep_id )
+        select top 1 t.count as value, d.name as title from temp t left join sys_depart d on d.id = t.dep_id order by count desc
+    </select>
+
+    <!--查询文物状态分组占比-->
+    <select id="selectCountByPresState" resultType="Map">
+        SELECT * FROM vm_relic_count_by_pres_state
+    </select>
+
+
+    <!--查询文物完残程度分组占比-->
+    <select id="selectCountByIntegrity" resultType="Map">
+        SELECT * FROM vm_relic_count_by_integrity
+    </select>
+
+    <!--查询文物状态分组占比-->
+    <select id="selectCountBySource" resultType="Map">
+        SELECT * FROM vm_relic_count_by_source
+    </select>
+
+
+    <select id="selectInfoStat" resultType="ChartData">
+      SELECT * FROM vw_relic_info_count
+    </select>
+    <select id="selectInfoStat2" resultType="ChartData">
+      SELECT * FROM vm_relic_info_count2
+    </select>
+
+    <select id="getByMaterialId" resultType="java.lang.String">
+       SELECT * FROM vw_relic_info where sort = #{materialId}  AND type = #{type}
+   </select>
+
+
+</mapper>

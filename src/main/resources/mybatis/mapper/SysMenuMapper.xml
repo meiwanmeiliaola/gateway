@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.system.mapper.SysMenuMapper">
+    <sql id="menuField">
+        m.id as id,m.name as name,m.sort as sort,m.link as link,m.target as target,m.parent_id as parent_id,rm.role_id as role_id
+    </sql>
+
+
+    <select id="selectListByUser" resultType="SysMenu" parameterType="string">
+      select m.*
+from sys_menu m
+         left join sys_role_menu rm on rm.menu_id = m.id
+         left join sys_user_role ur on ur.role_id = rm.role_id
+where ur.user_id = #{userId};
+    </select>
+
+
+    <!--根据角色查询所有顶级菜单列表-->
+    <select id="selectListByRole" resultType="SysMenu" parameterType="string">
+        SELECT
+        <include refid="menuField"/>
+        FROM sys_menu m
+        INNER JOIN sys_role_menu rm on m.id = rm.menu_id and rm.role_id=#{roleId} WHERE m.parent_id = '0'
+    </select>
+
+    <select id="selectPermissionListByUser" resultType="java.lang.String">
+        with
+            role as (select r.id from sys_role r inner join sys_user_role ur on r.id = ur.role_id and ur.user_id = #{userId}),
+            menus as (
+                select distinct m.*
+                    from sys_menu m
+                    inner join sys_role_menu rm on m.id = rm.menu_id and rm.role_id in (select id from role)
+                union all
+                select sm.*
+                    from sys_menu sm
+                    join menus m on sm.parent_id = m.id)
+        select perms
+        from menus
+    </select>
+
+
+    <select id="selectChildById" resultType="SysMenu">
+      with menus as (
+    select * from sys_menu m where parent_id = #{id}
+    union all
+    select m2.* from sys_menu m2 inner join menus m3 on m3.parent_id = m2.id)
+    select distinct * from menus where type  &lt; 3 order by sort desc
+    </select>
+
+    <select id="selectParentById" resultType="SysMenu">
+      with menus as (
+    select * from sys_menu where id = #{id}
+    union all
+    select m1.* from sys_menu m1 join menus m2 on m1.id = m2.parent_id
+)
+select distinct * from menus where type  &lt; 3 order by sort desc
+    </select>
+
+</mapper>

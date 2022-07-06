@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.analysis.mapper.StatViewMapper">
+
+
+    <select id="selectPopRelic" resultType="ChartData">
+<!--      with temp as (
+        select v.item_id as relic_id, count(item_id) as pv
+        from msm_stat_view v
+        left join msm_relic r on r.id = v.item_id and v.type = 'relic'
+        group by (v.item_id))
+
+      select top 12 r.name as title, t.pv as value
+      from temp t
+      right join msm_relic r
+        on r.id=t.relic_id
+        <if test="type != null">
+            and type = #{type}
+        </if>
+        order by t.pv desc-->
+
+        with temp as (
+        select v.item_id as relic_id, count(item_id) as pv
+        from msm_stat_view v
+        left join gw_relic r on r.id = v.item_id and v.type = 'relic'
+        group by (v.item_id))
+
+        select top 12 r.name as title, t.pv as value
+        from temp t
+        right join gw_relic r
+        on r.id=t.relic_id
+        <if test="type != null">
+            and type = #{type}
+        </if>
+        order by t.pv desc
+    </select>
+
+
+    <select id="selectPopRelicCatg" resultType="ChartData">
+
+/*        with temp as (
+    select item_id, count(item_id) as value from msm_stat_view where type in ('relic-common') group by item_id
+)
+select rc.name as title, sum(t.value) as value from temp t
+    left join msm_relic r on r.id=t.item_id
+    left join msm_relic_catg rc on rc.id = r.category_id
+group by rc.name order by value desc*/
+
+with temp as (
+    select item_id, count(item_id) as value from msm_stat_view where type in ('relic') group by item_id
+    )
+select rc.label as title, sum(t.value) as value from temp t
+    left join gw_relic r on r.id=t.item_id
+    left join sys_dict_value rc on rc.dict_type_id='add4068158e578a338ef8fe3f65876b4' and rc.value = r.category_id
+group by rc.label order by value desc
+
+    </select>
+
+
+</mapper>

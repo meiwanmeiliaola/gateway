@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.statistics.mapper.ExhibitionStatisticsMapper">
+
+
+
+
+    <select id="selectByDepart" resultType="ChartData">
+        with temp as ( select count(*) as value, dep_id from msm_exhibition group by dep_id )
+          select t.value as value, d.name as title from temp t left join sys_depart d on d.id=t.dep_id  order by value desc
+    </select>
+
+
+
+
+    <select id="selectRecentlyAdded" resultType="Integer">
+        select count(*) from msm_exhibition where DateDiff(dd,create_date,getdate()) &lt;= 30
+    </select>
+
+
+
+    <select id="selectTopCount" resultType="string">
+        with temp as ( select top 1 count(*) as value, dep_id from msm_exhibition group by dep_id order by value desc )
+        select d.name from temp t left join sys_depart d on d.id=t.dep_id
+    </select>
+
+
+
+    <select id="selectByType" resultType="ChartData">
+        select count(*) as value, type as title from msm_exhibition group by type order by value desc
+    </select>
+
+
+
+    <select id="selectTotalByType" resultType="Integer">
+        select count(id) from msm_exhibition where type = #{type}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.statistics.mapper.PostStatisticsMapper">
+
+
+
+
+    <select id="selectByDepart" resultType="ChartData">
+        with temp as ( select count(*) as value, dep_id from msm_post group by dep_id )
+          select t.value as value, d.name as title from temp t left join sys_depart d on d.id=t.dep_id  order by value desc
+    </select>
+
+
+    <select id="selectTotal" resultType="Integer">
+        select count(*) from msm_post
+    </select>
+
+
+
+    <select id="selectRecentlyAdded" resultType="Integer">
+        select count(*) from msm_post where DateDiff(dd,create_date,getdate()) &lt;= 30
+    </select>
+
+    <select id="selectTodayAdded" resultType="Integer">
+        select count(*) from msm_post where DateDiff(dd,create_date,getdate()) = 0
+    </select>
+
+    <select id="selectTopCount" resultType="string">
+        with temp as ( select top 1 count(*) as value, dep_id from msm_post group by dep_id order by value desc )
+        select d.name as title from temp t left join sys_depart d on d.id=t.dep_id
+    </select>
+
+    <select id="selectByUser" resultType="ChartData">
+        with temp as ( select count(*) as value, create_by from msm_post group by create_by )
+        select t.value as value, d.name as title from temp t left join sys_user d on d.id=t.create_by  order by value desc
+    </select>
+
+    <select id="selectByType" resultType="ChartData">
+        select count(*) as value, type as title from msm_post group by type order by value desc
+    </select>
+
+    <select id="selectByStatus" resultType="ChartData">
+        select count(*) as value, status as title from msm_post group by status order by value desc
+    </select>
+
+
+</mapper>

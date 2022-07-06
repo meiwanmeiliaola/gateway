@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.system.mapper.SysRoleMapper">
+
+
+    <select id="selectListByUser" resultType="SysRole" parameterType="string">
+        SELECT *
+        FROM sys_role sr
+                 INNER JOIN sys_user_role sur ON sr.id = sur.role_id AND sur.user_id = #{userId}
+    </select>
+
+
+</mapper>

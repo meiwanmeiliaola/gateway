@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.relic.mapper.RelicMapper">
+
+    <select id="selectRelicInfo" resultType="java.util.Map">
+        select * from vw_relic_info
+    </select>
+
+    <select id="pubSelectById" resultType="Relic">
+        select v.label as materialId, v2.label as levelId, r.rev_relic_years, y.name as yearsId, d.name as depId, r.id,r.name,r.images, r.thumb, r.content, r.url_3d as url3d,r.pano, r.type
+from msm_relic r
+left join sys_dict_value v on r.mat_id = v.value and v.dict_type_id = 'be9cf44299c14263b2ba249987a9f524'
+left join sys_dict_value v2 on r.level_id = v2.value and v2.dict_type_id = '4dba05bebf0645609693bc6addaf912c'
+left join sys_dict_value v3 on r.rev_relic_years = v3.value and v3.dict_type_id = '819c0768d67b88097b96e63894205331'
+left join msm_years y on y.id = r.years_id
+left join sys_depart d on d.id = r.dep_id
+where r.id = #{id} and r.status = 1
+    </select>
+
+    <update id="updateByCateId" parameterType="com.msm.admin.greatWall.gwRelic.entity.GwRelic">
+        update gw_relic
+        set category_id =#{categoryId}
+        where  cate_name =#{cateName}
+    </update>
+
+
+
+
+</mapper>

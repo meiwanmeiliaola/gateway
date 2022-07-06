@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msm.admin.modules.system.mapper.SysUserRoleMapper">
+
+    <insert id="insertBatchWithUserId">
+        INSERT INTO sys_user_role VALUES 
+        <foreach collection="rolesId" item="roleId" separator=",">
+            ((SELECT REPLACE(LOWER(NEWID()), '-', '')), #{userId}, #{roleId})
+        </foreach>
+    </insert>
+
+    <!--<select id="uuid">-->
+        <!--;-->
+    <!--</select>-->
+</mapper>
