@@ -67,7 +67,7 @@ public enum FileType {
     /**
      * MP3
     */
-    MP3("49443303"),
+    MP3("49443304"),
 
     /**
      * Quicktime.

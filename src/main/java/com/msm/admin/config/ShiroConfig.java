@@ -124,6 +124,8 @@ public class  ShiroConfig {
         map.put("/relics/**", "anon");
         map.put("/gwRelic/**", "anon");
         map.put("/gwInfo/**", "anon");
+        map.put("/gwRoam/**", "anon");
+        map.put("/excel/**", "anon");
         map.put("/gwNum/**", "anon");
         map.put("/collection/**", "anon");
         map.put("/gwExp/**", "anon");

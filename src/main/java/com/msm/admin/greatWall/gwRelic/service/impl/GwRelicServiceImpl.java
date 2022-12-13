@@ -50,6 +50,7 @@ public class GwRelicServiceImpl extends ServiceImpl<GwRelicServiceMapper, GwReli
 
         QueryWrapper<GwRelic> queryWrapper = new QueryWrapper<>();
 
+
         queryWrapper=SubjectUtils.isAdmin(queryWrapper);
         if (SubjectUtils.isAdminNull()){
             queryWrapper.orderByAsc("pql");
