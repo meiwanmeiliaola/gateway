@@ -29,9 +29,9 @@ public class JDBCUtil {
     //得到数据库的连接
     public static  Connection getConnection() throws SQLException {
 
-        String url="jdbc:sqlserver://47.92.231.181:51109;DatabaseName=greatWall";
-        String username = "sa";
-        String password = "Qdkj-2018";
+        String url="
+        String username = 
+        String password = 
 
 
         return DriverManager.getConnection(url,username,password);
